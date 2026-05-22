@@ -1,94 +1,94 @@
-# 🔴 Security Camera Weapon Detection System
+# Security Camera Weapon Detection System
 
 A real-time AI-powered security camera system that detects weapons (pistols, knives, rifles, grenades) using your webcam or IP camera. When a weapon is detected, it automatically:
-- 📸 Takes a snapshot of the person
-- 🎥 Records a video clip
-- 📧 Sends an email alert with photo
-- 📱 Sends an SMS (via Twilio)
-- 🤖 Sends a Telegram alert with photo
-- 🔊 Plays an alarm sound
-- 🌐 Shows everything on a live web dashboard
+
+- Takes a snapshot of the person
+- Records a video clip
+- Sends an email alert with photo
+- Sends an SMS (via Twilio)
+- Sends a Telegram alert with photo
+- Plays an alarm sound
+- Shows everything on a live web dashboard
 
 ---
 
-## 📸 Real Detection Screenshots
+## Real Detection Screenshots
 
 These are actual detections captured by the system:
 
 | Pistol Detection | Knife Detection |
 |:---:|:---:|
 | ![Pistol](snapshots/pistol_20260301_211228.jpg) | ![Knife](snapshots/knife_20260301_211243.jpg) |
-| ![Pistol](snapshots/pistol_20260301_211259.jpg) | ![Knife](snapshots/knife_20260301_215506.jpg) |
-| ![Pistol](snapshots/pistol_20260301_215757.jpg) | ![Knife](snapshots/knife_20260301_215628.jpg) |
-| ![Pistol](snapshots/pistol_20260301_220449.jpg) | ![Knife](snapshots/knife_20260301_220458.jpg) |
+| ![Pistol](snapshots/pistol_20260301_211259.jpg) | ![Pistol](snapshots/pistol_20260301_220449.jpg)|
+| ![Pistol](snapshots/pistol_20260301_215757.jpg) | ![Knife](snapshots/knife_20260301_220458.jpg) |
 
 ---
 
-## 🧠 How It Works (Simple Explanation)
+## How It Works (Simple Explanation)
 
 ```
 Your Webcam
-    │
-    ▼
-┌─────────────────────────────────────────────┐
-│  Frame captured every ~33ms                 │
-│                                             │
-│  1. Night Mode (auto-brighten if dark)      │
-│  2. Face Detection  (built-in OpenCV)       │
-│  3. Person Detection  (YOLOv8 — local)      │
-│  4. Weapon Detection  (Roboflow AI — cloud) │
-└─────────────────────────────────────────────┘
-    │
-    ▼  Weapon found with confidence ≥ 35%
-    │  AND detected in 3+ consecutive frames?
-    │
-    ▼
-┌─────────────────────────────────────────────┐
-│  Alert Pipeline (all run in background)     │
-│                                             │
-│  📸 Save person snapshot                   │
-│  🎥 Record 10-second video clip            │
-│  🔊 Play alarm beep                        │
-│  📧 Send email with photo                  │
-│  📱 Send SMS                               │
-│  🤖 Send Telegram message + photo          │
-│  💾 Log to SQLite database                 │
-└─────────────────────────────────────────────┘
-    │
-    ▼
-🌐 Web Dashboard at http://localhost:5000
+    |
+    v
++---------------------------------------------+
+|  Frame captured every ~33ms                 |
+|                                             |
+|  1. Night Mode (auto-brighten if dark)      |
+|  2. Face Detection  (built-in OpenCV)       |
+|  3. Person Detection  (YOLOv8 - local)      |
+|  4. Weapon Detection  (Roboflow AI - cloud) |
++---------------------------------------------+
+    |
+    v  Weapon found with confidence >= 35%
+    |  AND detected in 3+ consecutive frames?
+    |
+    v
++---------------------------------------------+
+|  Alert Pipeline (all run in background)     |
+|                                             |
+|   - Save person snapshot                    |
+|   - Record 10-second video clip             |
+|   - Play alarm beep                         |
+|   - Send email with photo                   |
+|   - Send SMS                                |
+|   - Send Telegram message + photo           |
+|   - Log to SQLite database                  |
++---------------------------------------------+
+    |
+    v
+Web Dashboard at http://localhost:5000
    (live camera feed + alert history table)
 ```
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 Security_cam/
-│
-├── main.py              ← Run this to start the system
-├── config.py            ← ALL your settings go here
-│
-├── detector.py          ← Sends frames to Roboflow AI for weapon detection
-├── dashboard.py         ← Flask web dashboard (live feed + alert log)
-├── database.py          ← SQLite database (stores all alerts)
-├── emailer.py           ← Sends email alerts with photo attached
-├── sms_alert.py         ← Sends SMS via Twilio
-├── telegram_alert.py    ← Sends Telegram alerts with photo
-├── snapshot.py          ← Saves person photo + records video clip
-├── alarm.py             ← Plays beep alarm sound
-├── scheduler.py         ← Limits active hours + sends daily report
-│
-├── yolov8n.pt           ← YOLOv8 model (person detection, runs locally)
-├── security_log.db      ← Auto-created SQLite database
-├── snapshots/           ← Auto-created folder for saved photos
-└── videos/              ← Auto-created folder for saved video clips
+|
+|-- main.py              <- Run this to start the system
+|-- config.py            <- ALL your settings go here
+|
+|-- detector.py          <- Sends frames to Roboflow AI for weapon detection
+|-- dashboard.py         <- Flask web dashboard (live feed + alert log)
+|-- database.py          <- SQLite database (stores all alerts)
+|-- emailer.py           <- Sends email alerts with photo attached
+|-- sms_alert.py         <- Sends SMS via Twilio
+|-- telegram_alert.py    <- Sends Telegram alerts with photo
+|-- snapshot.py          <- Saves person photo + records video clip
+|-- alarm.py             <- Plays beep alarm sound
+|-- scheduler.py         <- Limits active hours + sends daily report
+|
+|-- yolov8n.pt           <- YOLOv8 model (person detection, runs locally)
+|-- security_log.db      <- Auto-created SQLite database
+|-- snapshots/           <- Auto-created folder for saved photos
+|-- videos/              <- Auto-created folder for saved video clips
 ```
 
 ---
 
-## ✅ Requirements
+## Requirements
 
 - Python 3.8 or higher
 - A webcam (built-in laptop cam works fine)
@@ -97,16 +97,16 @@ Security_cam/
 
 ---
 
-## 🚀 Quick Start (Step by Step)
+## Quick Start (Step by Step)
 
-### Step 1 — Clone the Repository
+### Step 1 - Clone the Repository
 
 ```bash
 git clone https://github.com/YOUR_USERNAME/Security_cam.git
 cd Security_cam
 ```
 
-### Step 2 — Install Python Dependencies
+### Step 2 - Install Python Dependencies
 
 ```bash
 pip install opencv-python ultralytics flask requests numpy
@@ -117,36 +117,36 @@ If you want SMS alerts, also install:
 pip install twilio
 ```
 
-### Step 3 — Get Your Roboflow API Key (FREE)
+### Step 3 - Get Your Roboflow API Key (FREE)
 
 This is the AI engine that detects weapons. It's free to use.
 
 1. Go to [https://roboflow.com](https://roboflow.com) and create a free account
-2. After logging in, click your profile icon → **Settings** → **API Keys**
+2. After logging in, click your profile icon -> **Settings** -> **API Keys**
 3. Copy your **Private API Key**
 
-### Step 4 — Edit `config.py`
+### Step 4 - Edit `config.py`
 
 Open `config.py` and fill in your details:
 
 ```python
-# ── Roboflow (REQUIRED) ────────────────────────
-ROBOFLOW_API_KEY  = "paste_your_api_key_here"   # ← Your Roboflow API key
-ROBOFLOW_MODEL    = "weapon-detection-f1lih/1"  # ← Keep this as-is
+# -- Roboflow (REQUIRED) -----------------------
+ROBOFLOW_API_KEY  = "paste_your_api_key_here"   # Your Roboflow API key
+ROBOFLOW_MODEL    = "weapon-detection-f1lih/1"  # Keep this as-is
 
-# ── Email (OPTIONAL) ──────────────────────────
-EMAIL_SENDER    = "your_gmail@gmail.com"         # ← Your Gmail address
-EMAIL_PASSWORD  = "your_app_password"            # ← Gmail App Password (not your real password)
-EMAIL_RECEIVERS = ["recipient@gmail.com"]        # ← Who gets alerts
+# -- Email (OPTIONAL) --------------------------
+EMAIL_SENDER    = "your_gmail@gmail.com"         # Your Gmail address
+EMAIL_PASSWORD  = "your_app_password"            # Gmail App Password (not your real password)
+EMAIL_RECEIVERS = ["recipient@gmail.com"]        # Who gets alerts
 
-# ── Camera ────────────────────────────────────
-CAMERA_INDEXES = [0]   # ← 0 = built-in webcam, 1 = second camera
+# -- Camera ------------------------------------
+CAMERA_INDEXES = [0]   # 0 = built-in webcam, 1 = second camera
 ```
 
 > **For EMAIL_PASSWORD**: Gmail requires an "App Password" (not your normal password).
-> Go to your Google Account → Security → 2-Step Verification → App Passwords → Generate one.
+> Go to your Google Account -> Security -> 2-Step Verification -> App Passwords -> Generate one.
 
-### Step 5 — Run the System
+### Step 5 - Run the System
 
 ```bash
 python main.py
@@ -159,7 +159,7 @@ You will see:
 [DETECTOR] Background detection thread started.
 [DASHBOARD] Running at http://localhost:5000
 [INFO] Starting 1 camera(s)...
-[INFO] Dashboard → http://localhost:5000
+[INFO] Dashboard -> http://localhost:5000
 [INFO] Press Q in any camera window to quit.
 [CAM 0] Opened.
 ```
@@ -170,7 +170,7 @@ You will see:
 
 ---
 
-## ⚙️ All Settings Explained (`config.py`)
+## All Settings Explained (`config.py`)
 
 ### Email Settings
 ```python
@@ -213,11 +213,11 @@ NIGHT_MODE     = False    # Auto-brighten in dark environments
 
 ### Detection Settings
 ```python
-CONFIDENCE        = 0.35  # Minimum confidence (0.0–1.0). Lower = more sensitive
+CONFIDENCE        = 0.35  # Minimum confidence (0.0-1.0). Lower = more sensitive
 ALERT_COOLDOWN    = 30    # Seconds to wait before re-alerting for same weapon
 MIN_DETECT_FRAMES = 3     # Weapon must appear in 3 consecutive frames (reduces false alarms)
 MOTION_DETECTION  = True  # Only call AI when motion is detected (saves API calls)
-MOTION_THRESHOLD  = 5000  # Motion sensitivity — lower number = more sensitive
+MOTION_THRESHOLD  = 5000  # Motion sensitivity - lower number = more sensitive
 ```
 
 ### Video & Alarm
@@ -249,19 +249,19 @@ WEAPON_CLASSES = {"pistol", "knife", "rifle", "grenade", "missile"}
 
 ---
 
-## 🌐 Web Dashboard
+## Web Dashboard
 
 Open **http://localhost:5000** in your browser after starting the system.
 
 **Features:**
-- 📷 Live camera feed(s) with real-time video stream
-- 📋 Alert log table showing all detections
-- 🟢 Live indicator — auto-refreshes every 3 seconds (no page reload needed)
+- Live camera feed(s) with real-time video stream
+- Alert log table showing all detections
+- Live indicator - auto-refreshes every 3 seconds (no page reload needed)
 - Shows: ID, Time, Camera, Weapon type, Snapshot path, Email/SMS/Telegram status
 
 ---
 
-## 🗄️ View Saved Alerts (Database)
+## View Saved Alerts (Database)
 
 To print all logged alerts in the terminal:
 
@@ -282,11 +282,11 @@ Total alerts: 3
 
 ---
 
-## 🔧 Troubleshooting
+## Troubleshooting
 
 ### Camera not opening
 ```
-[CAM 0] Opened.   ← Good
+[CAM 0] Opened.   <- Good
 ```
 If it doesn't open, try `CAMERA_INDEXES = [1]` in `config.py` (some laptops use index 1).
 
@@ -315,7 +315,7 @@ app.run(host="0.0.0.0", port=5001, ...)  # change to any free port
 
 ---
 
-## 📦 Full Dependency List
+## Full Dependency List
 
 | Package | Purpose | Install |
 |---|---|---|
@@ -333,18 +333,18 @@ pip install opencv-python ultralytics flask requests numpy twilio
 
 ---
 
-## 🔑 API Keys Summary
+## API Keys Summary
 
 | Service | Required? | Where to get it | Config key |
 |---|---|---|---|
-| Roboflow | **YES** | [roboflow.com](https://roboflow.com) → Settings → API Keys | `ROBOFLOW_API_KEY` |
-| Gmail App Password | Optional | Google Account → Security → App Passwords | `EMAIL_PASSWORD` |
-| Twilio | Optional | [twilio.com](https://twilio.com) → Console | `TWILIO_SID`, `TWILIO_AUTH` |
-| Telegram Bot | Optional | Telegram → @BotFather → /newbot | `TELEGRAM_TOKEN` |
+| Roboflow | **YES** | [roboflow.com](https://roboflow.com) -> Settings -> API Keys | `ROBOFLOW_API_KEY` |
+| Gmail App Password | Optional | Google Account -> Security -> App Passwords | `EMAIL_PASSWORD` |
+| Twilio | Optional | [twilio.com](https://twilio.com) -> Console | `TWILIO_SID`, `TWILIO_AUTH` |
+| Telegram Bot | Optional | Telegram -> @BotFather -> /newbot | `TELEGRAM_TOKEN` |
 
 ---
 
-## 🖥️ Multiple Cameras
+## Multiple Cameras
 
 To use 2 cameras simultaneously:
 
@@ -357,7 +357,7 @@ Each camera gets its own window and its own feed in the dashboard.
 
 ---
 
-## 📂 Output Files
+## Output Files
 
 | Type | Location | Example |
 |---|---|---|
@@ -367,7 +367,7 @@ Each camera gets its own window and its own feed in the dashboard.
 
 ---
 
-## ⚡ Quick Command Reference
+## Quick Command Reference
 
 ```bash
 # Start the system
@@ -382,13 +382,13 @@ python dashboard.py
 
 ---
 
-## 🛡️ Legal & Ethical Notice
+## Legal & Ethical Notice
 
 This system is intended for **legitimate security monitoring** on property you own or have permission to monitor. Always comply with local privacy laws and regulations regarding surveillance. Do not use this system to monitor people without their knowledge where prohibited by law.
 
 ---
 
-## 🤝 Contributing
+## Contributing
 
 Pull requests are welcome. For major changes, open an issue first to discuss what you'd like to change.
 
